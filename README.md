@@ -348,4 +348,14 @@ with open("cricketdata.json", "w") as outfile:
         print("Loding data into file")
         json.dump(countries, outfile)
 print("Done!!! you got the file")
-'''
+```
+![image](https://user-images.githubusercontent.com/38343820/117157217-08fada00-addc-11eb-8414-547d2a6fd44d.png)
+
+***on running the scraping code***
+
+![image](https://user-images.githubusercontent.com/38343820/117158039-b4a42a00-addc-11eb-935c-9943e6cf846a.png)
+
+
+***finding your jason file***
+
+
