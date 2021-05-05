@@ -555,3 +555,12 @@ for k in range(1,50,2):
 
 
 ***OVER***: AN OVER CONSIST OF 6 BALLS
+
+# FINAL ANALYSIS:
+![image](https://user-images.githubusercontent.com/38343820/117176397-78c59080-aded-11eb-9216-860d8c7388b5.png)
+![image](https://user-images.githubusercontent.com/38343820/117177227-68fa7c00-adee-11eb-8fd2-4845d6c28a2a.png)
+![image](https://user-images.githubusercontent.com/38343820/117177507-b840ac80-adee-11eb-8251-1b608ce60d4c.png)
+![image](https://user-images.githubusercontent.com/38343820/117178368-94ca3180-adef-11eb-8bd8-45fd902fdc01.png)
+![image](https://user-images.githubusercontent.com/38343820/117178548-ccd17480-adef-11eb-82c8-2b638c9ba8cb.png)
+![image](https://user-images.githubusercontent.com/38343820/117178796-099d6b80-adf0-11eb-999c-a09f3909172e.png)
+
