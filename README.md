@@ -359,3 +359,73 @@ print("Done!!! you got the file")
 ***finding your jason file***
 
 
+## API GENERATION THROUGH CODE:
+
+THE FOLLOWING ARE STEPS FOR WRITING THE END POINTS.NOW AN API IS MADE USING FLASK SO HERE WE WILL BE USING FLASK. NOW, AS WE KNOW WE HAVE ALL THE DATA SEPERATELY FOR ALL COUNTRIES. SO IN ORDER TO COLLECT DATA COLLECTIVELY, WE FIRST HAVE TO GO THROUGH THE CODE FOR ACCESSING BEST BATSMAN AND BOWLERS FOR ALL COUNTRIES AND THEN WILL LOOK AT THE CODE FOR BUILDING AN API.
+
+
+### NOW, CODE FOR BEST BATMAN AND BOWLER, HIGHEST STRIKE RATE AND LOWEST ECONOMY OF ALL COUNTRIES:
+
+STEPS TO FOLLOW IN ORDER TO GET THAT:
+
+```python
+with open('cricketdata.json', 'r') as openfile:
+                json_object = json.load(openfile)
+            country_names=[]
+            country_names=json_object.keys()
+            list=[]
+            list2=[]
+            list3=[]
+            list5=[]
+            list4=[]
+            list6=[]
+            for i in country_names:
+                number_of_players_Twenty20=len(json_object[i]['Batting_Records']['Twenty20_Matches']['players'])
+                number_of_players_Odi=len(json_object[i]['Batting_Records']['Odi_Matches']['players'])
+                number_of_players=len(json_object[i]['Batting_Records']['Test_Matches']['players'])
+                for j in range(0,number_of_players):
+                    try:
+                        a=int(json_object[i]['Batting_Records']['Test_Matches']['players'][j]['RUNS_SCORED'])
+                        list.append(a)
+                    except KeyError:
+                        print("missing data encoutered")
+                for e in range(0,number_of_players_Twenty20):
+                    try:
+                        a=int(json_object[i]['Batting_Records']['Twenty20_Matches']['players'][e]['RUNS_SCORED'])
+                        list2.append(a)
+                    except KeyError:
+                        print("missing data encoutered")
+                for d in range(0,number_of_players_Odi):
+                    try:
+                       a=int(json_object[i]['Batting_Records']['Odi_Matches']['players'][d]['RUNS_SCORED'])
+                       list3.append(a)
+                    except KeyError:
+                        print("missing data encoutered")
+```
+
+- NOW, THE FIRST STEP IS TO OPEN THE JASON FILE INTO READ MODE AND THEN FOR EVERY COUNTRY, FIND THE NUMBER OF PLAYERS IN EACH FORMAT. NOW, FOR NUMBER OF PLAYERS IN EACH FORMAT TRY TO ACCESS THE RECORD REQUIRED LIKE IN THIS CASE ***FOR BEST BATSMAN: BATTING RECORD & RUNS SCORED, FOR BEST BOWLER: TAKE BOWLING RECORDS & WICKETS TAKE, FOR HIGHEST STRIKE RATE: TAKE BATTING RECORDS & BATTING STRIKE RATE, FOR LOWEST ECONOMY TAKE BOWLING RECOREDS & ECONOMY RATE***.
+
+
+- NOW, THE LIST CONTAINS ALL THE REQUIRED RECORDS. REMEMBER THE LIST ONLY CONTAINS TOTAL RUNS SCORED BY ALL THE BATSMAN OR TOTAL WICKETS TAKEN BY OR BOWLER OR ECONOMY RATES OF ALL THE BOWLERS OR HIGHEST STRIKE RATE OF ALL THE BATSMAN.
+
+
+***NOTE: AS THESE RECORDS ARE STRING TYPE. IN ORDER TO COMPARE, THEY NEED TO BE CONVERTED INTO EITHER INT OR FLOAT DEPENDING ON THE VARIABLE TYPE. TRY AND EXCEPT ARE USED IN ORDER TO HANDLE MISSING DATA OR NO VALUE DATA WHICH IN TABLE IS REPRESENTED BY "-".
+
+
+- AFTER WE HAVE RECEIVED LIST, WE NEED TO SORT THEM FROM BIGGER VALUES TO LOWER VALUES IN ORDER TO GET BEST RUNS SCORED SO THAT LATER ON CAN FIND PLAYERS WHO SCORED THOSE RUNS. ***AN EXCEPTION HERE IS LOWEST ECONOMY RATE IN WHICH LIST WILL BE ARRANGEST FROM LWER ECONOMY RATE TO HIGHEST ECONOMY RATE.
+
+
+```python
+            list.sort(reverse=True)
+            list2.sort(reverse=True)
+            list3.sort(reverse=True)
+```
+
+
+- Now, get all the players records by traversing the lists and countries records. match the runs from the list and print all the records.
+
+
+***NOW, THE ABOVE EXPLAINS ALL THE DETAILS OF THE MAIN CODE USE FOR BUILDING API END POINTS.***
+
+***NOW, WE WILL SEE HOW TO GENERATE API CODE AND HOW TO DEFINE DIFFERENT ENDPOINTS:***
+
