@@ -564,3 +564,5 @@ for k in range(1,50,2):
 ![image](https://user-images.githubusercontent.com/38343820/117178548-ccd17480-adef-11eb-82c8-2b638c9ba8cb.png)
 ![image](https://user-images.githubusercontent.com/38343820/117178796-099d6b80-adf0-11eb-999c-a09f3909172e.png)
 
+
+THE GIVEN GRAPHS ARE PRODUCED USING EXCEL AND NOT MATPOLIB
