@@ -143,3 +143,30 @@ THIS URL RETURNS BEST BOWERS WITH getLowestEcomyRate AVAILABLE IN ALL THREE FORM
 ***BEST COUNTRIES IN HAVING BEST BATSMAN***
 
 ALL THESE SCRAPED DATA IS FOR A PARTICULAR FORMAT.THOUGH DATA COLLECTED FOR EACH PLAYER IS SIMILAR. THE PLAYERS WILL BE DIFFERENT FOR EACH FORMAT.
+
+# METHODOLOGY USED WHILE CODING IN PYTHON:
+
+## WEB SCRAPPING:
+
+THE STEPS FOLLOWED FOR SCRAPPING FROM THE WEBSITE ARE AS FOLLOWS:
+
+- IN THE VERY FIRST PLACE WE NEED TO SCRAPE ALL THE AVAILABLE DATA FOR ALL THE TEAMS. THE WEBSITE HAS A RECORD TABBLE FOR ALL THE TEAMS AND ON CLICKING ON THE PARTICULAR NAMES, THE SITE CORRESPONDS US TO THE RESPECTIVE PAGE. NOW, ALL WE NEED TO FIND IS THE ***RECORD TABLE IN VIEW SOURCE PAGE.*** ON ACCESSING THE VIEW SOURCE PAGE WE PRESS THE ***CTRL+F*** AND SEARCH FOR ***RECORDS BY TEAM***. ON ACCESSING THE RECORDS BY TEAM, WE FIND A ***TABLE HTML TAG*** IN ORDER TO FIND A TABLE. NOW IN ORDER TO SEPERATE THE TABLE FROM THE REST, WE USE THE ***split** functionality again and again in order to get what we want. Finally, after seperating the table, we get all the country names and with them we get the url of the next page through ***href*** attribute.
+```html
+<p class="statRecHdrG">Records by team</p>
+              <div class="standingsGutter">
+                <div class="standings-nav" style="text-align:left;"><a class="active" id="recteam_link" href="javascript:void(0);" onClick="changeLead('recteam','recteam_link'); return false;" title="Team">Team</a> | <a id="reccntry_link" class="inactive" href="javascript:void(0);" onClick="changeLead('reccntry','reccntry_link'); return false;" title="Host Country">Host Country</a></div>
+              </div>
+
+
+              <div id="recteam" style="display: block;">
+
+                <ul class="Record" style="width: 220px;">
+
+<li>
+
+                  <a class="RecordLinks" href="/ci/engine/records/index.html?id=40;type=team"> Afghanistan</a></li>
+
+<li>
+
+                  <a class="RecordLinks" href="/ci/engine/records/index.html?id=2;type=team"> Australia</a></li>
+```
