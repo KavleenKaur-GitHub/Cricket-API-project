@@ -171,6 +171,28 @@ THE STEPS FOLLOWED FOR SCRAPPING FROM THE WEBSITE ARE AS FOLLOWS:
                   <a class="RecordLinks" href="/ci/engine/records/index.html?id=2;type=team"> Australia</a></li>
 ```
 ```python
-  import pandas as pd 
-  df=pd.read('name_of_the file.csv')
+  url = 'https://stats.espncricinfo.com/ci/engine/records/index.html'
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36'
+}
+ls2=[]
+url2=[]
+country_names=[]
+r = requests.get(url,headers=headers)
+t = r.text.split('<p class="statRecHdrG">Records by team</p>')[1]
+split1=t.split('<ul class="Record" style="width: 220px;">')[1]
+ls=split1.split('<a class="RecordLinks"')[1:]
+for i in ls:
+    split2=i.split('</li>')
+    ls2.append(split2[0])
+#print(ls2)
+for i in ls2:
+    split3=i.split('"> ')[0].split('href="')
+    #print('https://stats.espncricinfo.com/'+split3[1])
+    url2.append('https://stats.espncricinfo.com/'+split3[1])
+    split4=i.split('"> ')[1].split('</a>')[0]  
+    #print(split4)
+    country_names.append(split4) ### accessed names of the countries who play cricket
+#print(url2)
    ```
+***Now, in this code we can see that using the requests package, we have sent a get request on the main websites url that will the whole html when we use r. text. by using split , we can remove whatever needs to be removed thereby accessing linescontaining the names and the url which we put in ls variable. on splittinf further, we get url and country names seperated in different lists. here, variables url2 and country_names contain the url for each country and country names respectively.***
