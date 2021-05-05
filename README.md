@@ -170,3 +170,7 @@ THE STEPS FOLLOWED FOR SCRAPPING FROM THE WEBSITE ARE AS FOLLOWS:
 
                   <a class="RecordLinks" href="/ci/engine/records/index.html?id=2;type=team"> Australia</a></li>
 ```
+```python
+  import pandas as pd 
+  df=pd.read('name_of_the file.csv')
+   ```
