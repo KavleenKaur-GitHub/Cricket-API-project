@@ -195,4 +195,157 @@ for i in ls2:
     country_names.append(split4) ### accessed names of the countries who play cricket
 #print(url2)
    ```
+
 ***Now, in this code we can see that using the requests package, we have sent a get request on the main websites url that will the whole html when we use r. text. by using split , we can remove whatever needs to be removed thereby accessing linescontaining the names and the url which we put in ls variable. on splittinf further, we get url and country names seperated in different lists. here, variables url2 and country_names contain the url for each country and country names respectively.***
+
+
+- Now, that we have seperated list, we need to make a dictionary of the names so that when we access our data, we can always tell that which record belongs to which country. Now , this dictionary will contain all country names and then further information about the country's payers will be stored in this particular dictionary. In order to do that we use the given particular code:
+
+
+```python
+countries=dict.fromkeys(country_names) ## main dictionary of names of the countries
+```
+
+
+- Now, that we have list of country names***country_names*** and a dictionary called ***countries***, we can traverse and add to the dictionary easily. Now, our major goal is to scrap the batting and bowling records for all countries. Thus, we will tranverse through ***country_names*** and access the records by going to the url of each country seperately.Meaning ***the loop*** will help us to ***access each url*** present in the variable***url2**( as explianed in above point) one by one. thus helping us ***fetch batting and bowling records*** for ***each country***. We will ***access the pages*** as explained above using the ***request module*** and using the ***get method***
+
+
+```python
+for i in range(0, len(country_names)):
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36'
+}
+    r = requests.get(url2[i],headers=headers)
+    t = r.text.split('<p class="statRecHdr">Batting records</b><a name="batting"></p>')[1]
+    t27=r. text.split('<p class="statRecHdr">Bowling records</b><a name="bowling"></p>')[1]
+```
+
+
+***NOTE: For the view source using ctrl+F search Batting and Bowling records one by one and then split to get the necessary data***
+
+
+```python
+split5=t.split('<p class="RecBulAro">High scores</p>')[0]
+split35=t27.split(' <p class="RecBulAro">Most wickets</p>')[1]
+```
+
+
+***NOTE: For batting records, we access the high scores-Most runs and for bowling, we access the most wickets records. The reason is clearly stated in the introduction above.***
+
+
+```python
+    url3=[]
+    url47=[]
+    for j in range(0,3):
+        url3.append('https://stats.espncricinfo.com/'+split7[j].split('<a class="RecordLinks" href="')[1].split('">')[0])
+    for u in range(0,3):
+        url47.append('https://stats.espncricinfo.com'+split37[u].split('<a class="RecordLinks" href="')[1].split('">')[0])
+    #print(url47[1]) # Indexing to get test url of bowling records
+```
+
+
+***NOTE: We are accessing data for 3 formats.Now, variable url3 and url47 contains records of batting and bowling respectively for all 3 formats.Thus, by indexing, we can use data for any one format.***
+
+
+- Now, for all countries, ***we add the batting and bowling records of each format***. For that, we first ***add batting and bowling record's dictionary to the indivisula countries dictionary***. After that, we can ***add dictionaries of test, odi and twenty20 formats*** to ***each batting and bowlings dictionaries***. At last, ***we add players list which is a dictionary of every players and their record to each one one of these 3 format dictionaries***.
+
+
+```python
+   for d in range(0,len(country_names)):
+        if(i==d):
+            Records={}
+            countries[country_names[i]]=Records
+            Batting_Records={}
+            Bowling_Records={}
+            Records['Batting_Records']=Batting_Records
+            Records['Bowling_Records']=Bowling_Records
+```
+
+
+Now, for different formats, we need to loop through the six urls that we produced above so as to add records seperately for each. The 6 urls are:
+  
+    - test_url which contains the urls of each country's batting records for test format 
+    - odi_url which contains the urls of each country's batting records for odi format
+    - twenty_url which contains the urls of each country's batting records for twenty20 format
+    - twenty_url_bowling which contains the urls of each country's bowling records for twenty20 format
+    - odi_url_bowling which contains the urls of each country's bowling records for Odi format
+    - test_url_bowling which contains the urls of each country's bowling records for test format
+
+
+***NOTE: Not in order, refer to code for proper order.***
+ 
+
+
+```python
+ for k in test_url:
+                #print(k)
+                headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36'
+                }
+                r2 = requests.get(k,headers=headers)
+                t2 = r2.text.split('<caption>Most runs</caption>')[1]
+                split8=t2.split('<tbody>')[1].split('</tbody>')[0]
+                split9=split8.split('<td class="left"')
+                #print(split9)
+                Test_Matches2={}
+                Batting_Records['Test_Matches']=Test_Matches2
+                #print(split9[47])
+                list10=[]
+                Test_Matches2['players']=list10
+                #print(countries)
+                for t in range(1,len(split9)):
+                    count2=0
+                    if(t%2!=0):
+                        player_test={}
+                        player_test['NAME']=split9[t].split('<a href="')[1].split('" class="data-link">')[1].split('</a></td>')[0]
+                        player_test['ABOUT_player']='https://stats.espncricinfo.com/'+split9[t].split('<a href="')[1].split('" class="data-link">')[0]
+                        count2=count2+1
+                        #print(player)
+                        if count2==1:
+                            list10.append(player_test)
+                    else:
+                        try:
+                            player_test['PLAYING_SPAN']=(split9[t].split('"nowrap">')[1].split('</td>')[0])
+                            player_test['MATCHES_PLAYED']=split9[t].split('"nowrap">')[2].split('</td>')[0]
+                            player_test['INNING_BATTED']=split9[t].split('"nowrap">')[3].split('</td>')[0]
+                            player_test['NO_OUT']=split9[t].split('"nowrap">')[4].split('</td>')[0]
+                            player_test['RUNS_SCORED']=split9[t].split('"nowrap">')[5].split('</td>')[0].split('</b>')[0].split('<b>')[1]
+                            player_test['HIGHEST_INNING_SCORED']=split9[t].split('"nowrap">')[6].split('</td>')[0]
+                            player_test['BATTING_AVERAGE']=split9[t].split('"nowrap">')[7].split('</td>')[0]
+                            player_test['BALLS_FACED']=split9[t].split('"nowrap">')[8].split('</td>')[0]
+                            player_test['STRIKE_RATE']=split9[t].split('"nowrap">')[9].split('</td>')[0]
+                            player_test['1OOs_SCORED']=split9[t].split('"nowrap">')[10].split('</td>')[0]
+                            player_test['5Os_SCORED']=split9[t].split('"nowrap">')[11].split('</td>')[0]
+                            player_test['DUCKS_SCORED']=split9[t].split('"nowrap">')[12].split('</td>')[0]
+                            player_test['BOUNDARY_FOURS']=split9[t].split('"nowrap">')[13].split('</td>')[0]
+                            player_test['BOUNDARY_SIXES']=split9[t].split('"nowrap">')[14].split('</td>')[0]
+                        except IndexError:
+                            player_test['PLAYING_SPAN']=(split9[t].split('"nowrap">')[1].split('</td>')[0])
+                            player_test['MATCHES_PLAYED']=split9[t].split('"nowrap">')[2].split('</td>')[0]
+                            player_test['INNING_BATTED']=split9[t].split('"nowrap">')[3].split('</td>')[0]
+                            player_test['NO_OUT']=split9[t].split('"nowrap">')[4].split('</td>')[0]
+                            player_test['RUNS_SCORED']=split9[t].split('"nowrap">')[5].split('</td>')[0].split('</b>')[0].split('<b>')[1]
+                            player_test['HIGHEST_INNING_SCORED']=split9[t].split('"nowrap">')[6].split('</td>')[0]
+                            player_test['BATTING_AVERAGE']=split9[t].split('"nowrap">')[7].split('</td>')[0]
+                            player_test['1OOs_SCORED']=split9[t].split('"nowrap">')[8].split('</td>')[0]
+                            player_test['5Os_SCORED']=split9[t].split('"nowrap">')[9].split('</td>')[0]
+                            player_test['DUCKS SCORED']=split9[t].split('"nowrap">')[10].split('</td>')[0]
+                            count2=count2+1
+                            if count2==1:
+                                list10.append(player_test)
+ ```
+
+
+***Note: REST 5 URLS ARE DONE THE SAME. INTERESTING POINT TO NOTE HERE IS THAT EXCEPTION HANDLING IS USED BECAUSE EVERY COUNTRY HAS ITS OWN DIFFERENT TABLES. SOME COUNTRIES LACK SOME OF THE ABOVE USED VARIABLES AND SOME HAVE MISSING OR NO VALUES AT ALL***
+ 
+
+
+- NOW, WE HAVE ALL THE DATA SCRAPED SO NOW WILL PUT ALL THE CONTENT INTO A JASON FILE.
+
+
+
+```python
+with open("cricketdata.json", "w") as outfile:
+        print("Loding data into file")
+        json.dump(countries, outfile)
+print("Done!!! you got the file")
+'''
