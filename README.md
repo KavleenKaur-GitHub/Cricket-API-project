@@ -538,7 +538,7 @@ for k in range(1,50,2):
                 return json.dumps(res,indent=4)
 ```
 
-# NOTES FOR THE WHOLE PROJECT:
+# NOTES FOR THE WHOLE PROJECT:***
 - KEEP THE JASON FILE AND THE API FILE IN THE SAME FOLDER OR IT WOULD NOT WORK AND WILL GIVE ERROR.
 - IMPORT ALL THE PACKAGES REQUIRED
 
@@ -546,6 +546,12 @@ for k in range(1,50,2):
 # TERMINOLOGIES:
 
 ***Twenty20 (Twenty-20)*** : Twenty20 cricket or Twenty-20 (often abbreviated to T20) is a shortened format of cricket In a Twenty20 game, the two teams have A single innings each, which is restricted to a maximum of 20 overs.
+
+
 ***Test Match:*** Test cricket is the form of the sport of cricket with the longest match duration, and is considered the game&#39;s highest standard. A standard day of Test cricket consists of three sessions of two hours each.
+
+
 ***ODI (One Day International):*** A One Day International (ODI) is a form of limited overs cricket,played between two teams with international status, in
+
+
 ***OVER***: AN OVER CONSIST OF 6 BALLS
