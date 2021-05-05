@@ -429,3 +429,123 @@ with open('cricketdata.json', 'r') as openfile:
 
 ***NOW, WE WILL SEE HOW TO GENERATE API CODE AND HOW TO DEFINE DIFFERENT ENDPOINTS:***
 
+
+```python
+app = Flask(__name__)
+res = {} 
+AUTHKEY = '123'
+@app.route("/", methods=['GET','POST'])
+def root():
+    res['code'] = 2
+    res['msg'] = 'No endpoint specified'
+    res['req'] = '/'
+    return json.dumps(res,indent=4)
+@app.route("/getBestBatsman", methods=['GET','POST'])
+def getBestBatsman():
+    country = request.args.get('Country')
+    format=request.args.get('Format')
+    #auth:
+    qkey = request.args.get('key')
+    if qkey is None or qkey!= AUTHKEY:
+        res['code'] = 0
+        res['msg'] = 'Bad key given'
+        res['req'] = 'getBestBatsman'
+        return json.dumps(res,indent=4)
+    else:
+        print("debug ",country)
+        if country is None or country!='AllCountry':
+            res['code'] = 2
+            res['msg'] = 'Country not specified.'
+            res['req'] = 'getBestBatsman'
+            return json.dumps(res,indent=4)
+```
+
+- NOW, BEFORE WE CREATE ANY ENDPOINT, WE NEED TO DEFINE ROOT SO THAT IF NO END POINT IS GIVEN, WE CAN  SEE THE ERROR MESSAGE CLEARLY. THE API ENDPOINTS ARE MADE BY ***@app.route("/", methods=['GET','POST'])***. AFTER "/", WE ADD THE NAME OF THE API END PONT. NOW ALL THE ENDPOINTS HAVE MAIN TWO VARIABLES:COUNTRY AND FORMAT. IN THE GIVEN URL, WHEN WE GIVE THESE VARIABLES A VALUE, THE ARGUMENTS PASSED ARE ACHIEVED USING GET METHOD ***request.args.get***. QKEY IS USED FOR THE AUTHENTICATION SO THAT NO CAN GET THE DATA BY ENTERING TH ERONG KEY. THE RESPONSE GENERATED ON THE SCREEN CAN BE SEEN ONLY WHEN WE RETURN THE JASON USING***JSON.DUMPS** .THE OTHER PARTS OF THE CODE HELP US UNDERSTAND THE ERROR IN THE URL LIKE WHEN MISSING OUT COUNTRY OR SENDING A WRONG ARGUMENT WILL GIVE ***COUNTRY NOT SPECIFIED***.THE CODES ARE USED TO KNOW WHAT TYPE OF ERRROR IS MADE. ALL THESE ARE STORED IN ***res*** which is dumped back on the screen.
+
+
+- AFTER EVERYTHING IS CORRECT, WE WILL WRITE THE CODE EXPLAINED EARLIER WHICH IS DIFFERENT FO ALL OTHER ENDPOINTS.
+
+- JUST LIKE THE COUNTRY VARIABLE, FORMAT HAS ALSO ERROR MESSAGES ASSCOCIATED WITH IT FOR WHEN ANYTHING GOES WRONG. FOR DIFFERENT FORMATS, DIFFERENT DATA IS SEND WHICH IS ASSOCIATED WITH THE FORMAT TYPE.
+
+```python
+if format is None or format not in ['TestMatches','Twenty20Matches','OdiMatches']:
+                res['code'] = 2
+                res['msg'] = 'Format not specified.'
+                res['req'] = 'getBestBatsman'
+                return json.dumps(res,indent=4)
+            else:
+                if format=='TestMatches':
+                   res['code'] = 1
+                   res['msg'] = 'Request:OK'
+                   res['req'] = 'getBestBatsman'
+                   d = {}
+                   d['Test_Matches']=list4
+                   res['data'] = d
+                   return json.dumps(res,indent=4)
+                if format=='Twenty20Matches':
+                   res['code'] = 1
+                   res['msg'] = 'Request:OK'
+                   res['req'] = 'getBestBatsman'
+                   d = {}
+                   d['Twenty20_Matches']=list5
+                   res['data'] = d
+                   return json.dumps(res,indent=4)    
+                if format=='OdiMatches':
+                   res['code'] = 1
+                   res['msg'] = 'Request:OK'
+                   res['req'] = 'getBestBatsman'
+                   d = {}
+                   d['Odi_Matches']=list6
+                   res['data'] = d
+                   return json.dumps(res,indent=4)  
+```
+
+***Now, all the api points are explained except BestCountriesBatting or BestCountriesBowling. So, the concept used behind is that when you acccess all the best batmans and bowlers, add a counter for countries names in the list. Now, whichever country has more value, that country has the best batsman or the bowlers in that particular format.***
+
+
+### step1:
+```python
+for k in range(1,50,2):
+                 for i in country_names:
+                    number_of_players_Odi=len(json_object[i]['Batting_Records']['Odi_Matches']['players'])
+                    for m in range(0,number_of_players_Odi,2):
+                        try:
+                            if int(json_object[i]['Batting_Records']['Odi_Matches']['players'][m]['RUNS_SCORED'])==list3[k]:
+                                odi_batting.append(i)
+                                list6.append(json_object[i]['Batting_Records']['Odi_Matches']['players'][m])
+                        except KeyError:
+                                print("no value")
+```
+
+***Note: EARLIER, WE WROTE THE SAME CODE BUT NOW, WE HAVE JUST APPENDED A LIST WITH COUNTRY NAMES TAHT ARE IN THE RECORDS ACCESSED FOR THE BEST PLAYERS. REMEMBER, TO LATER ON COUNT, WE NEED TO IMPORT COUNTER FROM COLLECTIONS PACKAGE.
+
+
+### step2:
+```python
+            for h in country_names:
+                d1[h]=test_batting.count(h)
+                test_batting_allrecords.append(d1)
+            for h in country_names:
+                d2[h]=twenty20_batting.count(h)
+                twenty20_batting_allrecords.append(d2)
+            for h in country_names:
+                d3[h]=odi_batting.count(h)
+                odi_batting_allrecords.append(d3)
+            if format is None or format not in ['TestMatches','Twenty20Matches','OdiMatches']:
+                res['code'] = 2
+                res['msg'] = 'Format not specified.'
+                res['req'] = 'getBestCountriesBatting'
+                return json.dumps(res,indent=4)
+```
+
+# NOTES FOR THE WHOLE PROJECT:
+- KEEP THE JASON FILE AND THE API FILE IN THE SAME FOLDER OR IT WOULD NOT WORK AND WILL GIVE ERROR.
+- IMPORT ALL THE PACKAGES REQUIRED
+
+
+# TERMINOLOGIES:
+
+***Twenty20 (Twenty-20)*** : Twenty20 cricket or Twenty-20 (often abbreviated to T20) is a shortened format of cricket In a Twenty20 game, the two teams have A single innings each, which is restricted to a maximum of 20 overs.
+***Test Match:*** Test cricket is the form of the sport of cricket with the longest match duration, and is considered the game&#39;s highest standard. A standard day of Test cricket consists of three sessions of two hours each.
+***ODI (One Day International):*** A One Day International (ODI) is a form of limited overs cricket,played between two teams with international status, in
+***OVER***: AN OVER CONSIST OF 6 BALLS
